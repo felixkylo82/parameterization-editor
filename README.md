@@ -95,7 +95,7 @@ g. initializes openGL states and create a GLUT window
 
 2. Edit a parameterization with the program
 
-3.
+3. Keep minimize stretch
 With the function, void PatchList::optimizeParamerization(const double weight[]), the program,
 for each vertex in the vertex set of the patch connection, 
 a. computes all the geodesics connecting it to its neighbors
