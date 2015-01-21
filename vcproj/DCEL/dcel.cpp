@@ -30,10 +30,19 @@ void DoublyConnectedEdgeList::Face::flipFaceOrientation()
 	DoublyConnectedEdgeList::Edge   *startEdge, *currentEdge, *nextEdge;
 	DoublyConnectedEdgeList::Vertex *startVertex;
 
-
+	std::set<DoublyConnectedEdgeList::Face*> faceSet;
 	if (!this->visited)
 	{
-		nextEdge = currentEdge = startEdge = this->component;
+		faceSet.insert(this);
+	}
+
+	while (!faceSet.empty())
+	{
+		std::set<DoublyConnectedEdgeList::Face*>::iterator fiter = faceSet.begin();
+		Face* face = *fiter;
+		faceSet.erase(fiter);
+
+		nextEdge = currentEdge = startEdge = face->component;
 
 		if (NULL != nextEdge)
 		{
@@ -64,15 +73,19 @@ void DoublyConnectedEdgeList::Face::flipFaceOrientation()
 			}
 		}
 
-		this->visited = true;
+		face->visited = true;
 
-		currentEdge = startEdge = this->component;
+		currentEdge = startEdge = face->component;
 
 		do
 		{
 			if (NULL != currentEdge->twin->incidentFace)
 			{
-				currentEdge->twin->incidentFace->flipFaceOrientation();
+				DoublyConnectedEdgeList::Face* incidentFace = currentEdge->twin->incidentFace;
+				if (!incidentFace->visited)
+				{
+					faceSet.insert(incidentFace);
+				}
 			}
 			else
 			{
