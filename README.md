@@ -59,7 +59,7 @@ III. Header Files
 IV. External Libraries
 ========================================
 
-1.  lib\vpTree.lib
+1.  GLUT
 
 
 V. Globals
