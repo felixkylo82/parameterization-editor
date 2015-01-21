@@ -1,6 +1,6 @@
 # parameterization-editor
 
-I. DIRECTORIES
+I. Directories
 ========================================
 
 1.  bin\                                  - output for executables
@@ -17,7 +17,7 @@ I. DIRECTORIES
 12. vcproj\utilites                       - a library project for commonly used functions
 
 
-II. ALL THE SOURCES NEEDED FOR COMPILING PARAMETERIZATION EDITORS
+II. Source Files
 ========================================
 
 1.  vcproj\DCEL\dcel.cpp                  - doubly connected edge list implemetation
@@ -36,7 +36,7 @@ II. ALL THE SOURCES NEEDED FOR COMPILING PARAMETERIZATION EDITORS
 14. vcproj\utilities\dumpscreen.cpp       - dump screen
 
 
-III. ALL THE HEADER FILES NEEDED FOR COMPILING PARAMETERIZATION EDITORS
+III. Header Files
 ========================================
 
 1.  include\boundingbox.h
@@ -56,20 +56,13 @@ III. ALL THE HEADER FILES NEEDED FOR COMPILING PARAMETERIZATION EDITORS
 15. include\vptree.h
 
 
-IV. ALL THE EXTERNAL LIBRARIES NEEDED FOR COMPILING PARAMETERIZATION EDITORS
+IV. External Libraries
 ========================================
 
 1.  lib\vpTree.lib
 
 
-V. PATCHES AND PATCH LISTS
-========================================
-
-1.  A patch is a polygon, typically a quadrilateral, whose vertices lie on a given surface represented in a doubly connected edge list
-2.  A patch list is a list of patches. Connected patches may form another mesh and the connectivity is, again, repersented in a doubly connected edge list
-
-
-VI. ALL THE GLOBAL VARIABLES
+V. Globals
 ========================================
 
 1.  OBJModel                  model                       - an input surface
@@ -77,40 +70,47 @@ VI. ALL THE GLOBAL VARIABLES
 3.  PatchList                 patchList                   - patches which lie on the input surface
 4.  PatchCreation             pc                          - help create patches and modify patches
 5.  OBJModel                 *initialParameterization     - an initial parameterization in OBJ format
-6.  12 GUI states
+6.  GUI states x 12
 
 
-VII. GENERAL PROCEDURES FOR CREATING PARAMETERIZATION
+VI. Patches & Patch Lists
 ========================================
 
-1. void PatchList::projectParameterization(OBJModel &initialParameterization, unsigned int gridDensity)
+1.  A patch is a polygon, typically a quadrilateral, whose vertices lie on a given surface represented in a doubly connected edge list
+2.  A patch list is a list of patches. Connected patches may form another mesh and the connectivity is, again, repersented in a doubly connected edge list
 
-This function is
-a. to project points on an intial parameterization in OBJ format onto a given surface represented in a doubly connected list
-b. to convert the resulted OBJ model into a doubly connected edge list where each polygon of OBJ model  is a patch and the doubly connected edge list represent patch connection
-c. to create patches
 
-2. void PatchList::optimizeParamerization(const double weight[])
+VII. Creating Parameterization
+========================================
 
-For each vertex in the vertex set of the patch connection, this function
+1. Start up with arguments <surface in OBJ format> <patch list in OBJ format>
+With the function, int main(int argc, char** argv), the program
+a. normalizes the surface
+b. converts the surface into a DCEL
+c. removes points without any connection in the DCEL
+d. converts the DCEL into a triangular mesh if it is not
+e. validates the DCEL
+f. loads the patch file
+g. initializes openGL states and create a GLUT window
+
+2. Edit a parameterization with the program
+
+3.
+With the function, void PatchList::optimizeParamerization(const double weight[]), the program,
+for each vertex in the vertex set of the patch connection, 
 a. computes all the geodesics connecting it to its neighbors
 b. computes a tangential vector, T, which indicate the magnitude and the direction of movement of this vertex
 c. computes a geodesic whose first derivative matches T
-d. move this vertex along the geodesics such that the magnitude of movement matches ||T||
+d. moves this vertex along the geodesics such that the magnitude of movement matches ||T||
 
-3. int main(int argc, char** argv)
-
-a. take an OBJ model as a input surface
-b. normalizing the surface
-c. converting the the surface into a DCEL
-d. removing points without any connection in the DCEL
-e. converting the DCEL into a triangular mesh if it is not
-f. validating the DCEL
-g. loading the patch file which is, again, a OBJ model and the connection patch connection represented in another DCEL is computed
-h. initialize openGL states and create a GLUT window
+* Project parameterization for recovery
+With the function, void PatchList::projectParameterization(OBJModel &initialParameterization, unsigned int gridDensity), the program
+a. takes input points on an intial parameterization in OBJ format
+b. projects the initial parameterization onto a given surface represented in a doubly connected list
+b. outputs the final parameterization in a doubly connected edge list where each face is a patch and the list represent patch connection as a whole
 
 
-VIII. GUI KEY MENU
+VIII. GUI Key Menu
 ========================================
 
 Esc    exit
