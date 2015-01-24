@@ -82,6 +82,7 @@ IV. External Libraries
 ========================================
 
 1.  GLUT
+2.  cUtilites (contains some third party code)
 
 
 V. Globals
